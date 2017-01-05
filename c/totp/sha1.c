@@ -10,6 +10,16 @@
 #define H3 0x10325476
 #define H4 0xC3D2E1F0
 
+// Macros
+#define getbyte_0(data) (((uint64_t)data & 0x00000000000000FF))
+#define getbyte_1(data) (((uint64_t)data & 0x000000000000FF00) >> 8)
+#define getbyte_2(data) (((uint64_t)data & 0x0000000000FF0000) >> 16)
+#define getbyte_3(data) (((uint64_t)data & 0x00000000FF000000) >> 24)
+#define getbyte_4(data) (((uint64_t)data & 0x000000FF00000000) >> 32)
+#define getbyte_5(data) (((uint64_t)data & 0x0000FF0000000000) >> 40)
+#define getbyte_6(data) (((uint64_t)data & 0x00FF000000000000) >> 48)
+#define getbyte_7(data) (((uint64_t)data & 0xFF00000000000000) >> 56)
+
 char *sha1(char *msg, int64_t len) {
   // Size of message in bits
   int64_t orig_bits = len * sizeof(char) * 8;
@@ -56,21 +66,52 @@ char *sha1(char *msg, int64_t len) {
 
   // Insert original size as big endian integer
   #if DEBUG
-  orig_bits = ((uint64_t) - 2);
-      printf("MSbyte: %02X\n", (int8_t)((orig_bits & 0xFF00000000000000) >> 56));
-      printf("Byte 2: %02X\n", (int8_t)((orig_bits & 0x00FF000000000000) >> 48));
-      printf("Byte 3: %02X\n", (int8_t)((orig_bits & 0x0000FF0000000000) >> 40));
-      printf("Byte 4: %02X\n", (int8_t)((orig_bits & 0x000000FF00000000) >> 32));
-      printf("Byte 5: %02X\n", (int8_t)((orig_bits & 0x00000000FF000000) >> 24));
-      printf("Byte 6: %02X\n", (int8_t)((orig_bits & 0x0000000000FF0000) >> 16));
-      printf("Byte 7: %02X\n", (int8_t)((orig_bits & 0x000000000000FF00) >> 8));
-      printf("LSbyte: %02X\n", (int8_t)(orig_bits & 0x00000000000000FF));
+  orig_bits = 0x8899AABBCCDDEEFF;
+  //printf("MSbyte: %02hhX\n", (int8_t)((char *)&orig_bits)[1]);
+  printf("MSbyte: %02hhX\n", (int8_t)getbyte_7(orig_bits));
+  printf("Byte 2: %02hhX\n", (int8_t)getbyte_6(orig_bits));
+  printf("Byte 3: %02hhX\n", (int8_t)getbyte_5(orig_bits));
+  printf("Byte 4: %02hhX\n", (int8_t)getbyte_4(orig_bits));
+  printf("Byte 5: %02hhX\n", (int8_t)getbyte_3(orig_bits));
+  printf("Byte 6: %02hhX\n", (int8_t)getbyte_2(orig_bits));
+  printf("Byte 7: %02hhX\n", (int8_t)getbyte_1(orig_bits));
+  printf("LSbyte: %02hhX\n", (int8_t)getbyte_0(orig_bits));
+  printf("Offset: %llu\n", offset);
   #endif
-
+  
   if (len > 0){
-
+    // TODO: Make diz perdy yo! loop it or some shit
+    *(data+offset) = getbyte_7(orig_bits);
+    ++offset;
+    *(data+offset) = getbyte_6(orig_bits);
+    ++offset;
+    *(data+offset) = getbyte_5(orig_bits);
+    ++offset;
+    *(data+offset) = getbyte_4(orig_bits);
+    ++offset;
+    *(data+offset) = getbyte_3(orig_bits);
+    ++offset;
+    *(data+offset) = getbyte_2(orig_bits);
+    ++offset;
+    *(data+offset) = getbyte_1(orig_bits);
+    ++offset;
+    *(data+offset) = getbyte_0(orig_bits);
+    ++offset;
   }
+
+  #if DEBUG
+  printf("Offset: %llu\n", offset);
+
+  puts("");
+  for(int i = 1; i <= offset; ++i) {
+    printf("%02hhX ", *(data + i - 1));
+    if(i % 16 == 0) {
+      puts("");
+    }
+  }
+  #endif
   
   free(data);
-  return "test";
+
+  return "";
 }
