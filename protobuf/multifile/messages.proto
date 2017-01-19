@@ -1,0 +1,11 @@
+// messages.proto
+syntax = "proto3";
+
+enum ProtoVersion{
+    VERSION_NOT_SET = 0;
+    VERSION = 1020;
+}
+
+import public "temperature.proto";
+
+message temperature = temperature.temperature;

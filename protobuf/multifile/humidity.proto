@@ -1,0 +1,11 @@
+// messages.proto
+syntax = "proto3";
+
+message Humidity {
+    enum Unit {
+        RELATIVE_PROCENT = 0;
+        ABSOLUTE = 1;
+    }
+    float value = 1;
+    Unit unit = 2;
+}

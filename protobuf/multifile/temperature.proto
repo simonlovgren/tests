@@ -1,0 +1,14 @@
+// temperature.proto
+syntax = "proto3";
+
+// Message types below - Please note! Order is important
+message Temperature {
+    enum Unit {
+        CELSIUS = 0;
+        FAHRENHEIT = 1;
+        KELVIN = 2;
+    }
+    float value = 1;
+    Unit unit = 2;
+}
+
