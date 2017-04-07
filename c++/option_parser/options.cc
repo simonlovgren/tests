@@ -21,7 +21,9 @@ void Options::Add(string name, bool _expect_value)
   // TODO: Implement me
   if(list.find(name) == list.end()) {
     // not in list
-    list[name] = {false, _expect_value, NULL};
+    list[name].set  = false;
+    list[name].expect_value = _expect_value;
+    list[name].value = NULL;
     return;
   }
 }
