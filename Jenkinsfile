@@ -4,7 +4,8 @@ pipeline {
     stage('Sha1 build') {
       steps {
         sh '''pwd
-dir
+ls
+tree
 cd tests/c/totp
 gcc -c -o sha1.o sha1.c
 gcc -c -o totp.o totp.c
