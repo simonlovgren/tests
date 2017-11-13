@@ -13,7 +13,7 @@ gcc -o totp totp.o sha1.o'''
     }
     stage('Run') {
       steps {
-        sh '''cd tests/c/totp
+        sh '''cd c/totp
 ./totp'''
       }
     }
