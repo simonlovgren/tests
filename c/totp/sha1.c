@@ -1,7 +1,7 @@
 #include "sha1.h"
 
 // Debug flag
-#define DEBUG 1
+#define DEBUG 0
 
 // Define values needed for calculation
 #define H0 0x67452301
