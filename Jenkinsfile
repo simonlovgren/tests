@@ -14,12 +14,8 @@ gcc -o totp totp.o sha1.o'''
     stage('Run') {
       steps {
         sh '''cd c/totp
-./totp'''
-      }
-    }
-    stage('error') {
-      steps {
-        echo 'Done!'
+./totp "hello world" 11
+shasum -a 1 <<< "hello world"'''
       }
     }
   }
