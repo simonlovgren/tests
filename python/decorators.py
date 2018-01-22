@@ -40,3 +40,5 @@ helloDec( 'Anna' )
 SimpleDecorator( printHello )( 'Herbert' )
 
 ArgDecorator( 'Mr' )( printHello )( 'Simon' )
+
+ArgDecorator( 'Noname Mc.' )( lambda name: print( f'Hello, {name}' ) )( 'Anon' )
