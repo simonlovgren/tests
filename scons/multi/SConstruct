@@ -1,0 +1,11 @@
+# Set up arguments
+sconsfile = ARGUMENTS.get("sconsfile")
+target = ARGUMENTS.get("target")
+builddir = ARGUMENTS.get("builddir")
+
+# Set up custom environment variables
+env = DefaultEnvironment(MY_SOURCE_FILES = [], MY_INCLUDE_FILES = [], MY_INCLUDE_DIRS = [], MY_SOURCE_DIRS = [])
+
+# Run SConscript
+print("Compiling " + target)
+SConscript(sconsfile, variant_dir=builddir, exports="target env")

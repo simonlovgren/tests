@@ -1,0 +1,11 @@
+SConscript('BuildBase.scons')
+
+Environment().LoadBuildConfig([
+         'include3.scons',
+         'utilextend.scons'
+])
+
+print(env.subst('$CUSTOM_ENV_INIT'))
+print(env.subst('$CUSTOM_ENV_INIT2'))
+print(env.subst('$CUSTOM_ENV_INIT3'))
+print(env.subst('$CUSTOM_ENV_INIT_UTEXT'))

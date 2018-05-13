@@ -1,0 +1,22 @@
+import sys
+
+class IAR( ):
+
+    def __init__( self, env, name ):
+        self.env = env
+        self.name = name
+        print('IAR class initialized')
+        
+    def SomeClassFunction( self ):
+        print('Called function SomeClassFunction in', self.name)
+
+    def CreateArtifacts( self, build, version_location = '../Config' ):
+        print( 'Creating artifacts for {} using {}...'.format(build, self.name) )
+
+        
+env = Environment()
+
+env.IAR = IAR(env, 'IAR Helpclass')
+
+env.IAR.SomeClassFunction()
+env.IAR.CreateArtifacts( 'MyBuild' )

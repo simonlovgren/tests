@@ -1,0 +1,5 @@
+Import('env')
+
+env.SetDefault(
+        CUSTOM_ENV_INIT_UTEXT = 'custom init utext'
+)

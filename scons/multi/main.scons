@@ -1,0 +1,25 @@
+# Import target and environment
+Import("target env")
+
+# Clone env. for test
+myenv = env.Clone()
+
+# List scons deps
+scons_deps = [
+    './submodule/module.scons',
+    './submodule/module2.scons',
+    './submodule/module3.scons'
+]
+
+# Load scons deps
+SConscript(scons_deps, exports="target env")
+
+# Print custom env. vars
+print("Environment:")
+print(env['MY_SOURCE_FILES'])
+print(env['MY_INCLUDE_FILES'])
+
+print("\nClone environment:")
+print(myenv['MY_SOURCE_FILES'])
+print(myenv['MY_INCLUDE_FILES'])
+

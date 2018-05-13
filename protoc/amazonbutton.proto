@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+message Order {
+  string product_id = 1;
+  string user_id = 2;
+  uint32 number= 3;
+}

@@ -1,0 +1,10 @@
+
+Environment().LoadBuildConfig([
+        'include1.scons'
+])
+
+env.SetDefault(
+        CUSTOM_ENV_INIT2 = 'yes'
+)
+
+print('include 2')

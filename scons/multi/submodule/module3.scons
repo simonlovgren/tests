@@ -1,0 +1,9 @@
+# Import target and environment
+Import("target env")
+
+env['MY_SOURCE_FILES'].extend([
+    '.\\submodule3.c'
+])
+env['MY_INCLUDE_FILES'].extend([
+    '.\\submodule3.h'
+])

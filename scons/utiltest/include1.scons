@@ -1,0 +1,8 @@
+
+env = Environment(
+    CUSTOM_ENV_INIT = 'custom init 1'
+)
+
+Export('env')
+
+print('Include 1')

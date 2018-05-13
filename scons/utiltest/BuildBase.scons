@@ -1,0 +1,8 @@
+
+
+def LoadBuildConfig( self, includes = [] ):
+    for inc in includes:
+        SConscript(inc)
+        Import('env')
+
+AddMethod( Environment, LoadBuildConfig )
