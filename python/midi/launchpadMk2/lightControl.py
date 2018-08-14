@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 
 import pygame.midi as midi
-import time
+import time, sys
+
+# Global vars
+namePattern = "Launchpad MK2"
 
 # Initialize midi
 midi.init()
@@ -9,7 +12,9 @@ midi.init()
 deviceCount = midi.get_count()
 print( f"Number of MIDI-devices: {deviceCount}" )
 
-# List all devices
+# List all devices and locate launchpad
+inputDeviceIndex  = None
+outputDeviceIndex = None
 for i in range(deviceCount):
     (interface, name, isinput, isoutput, opened ) = midi.get_device_info( i )
     print()
@@ -23,9 +28,16 @@ for i in range(deviceCount):
     print( f"    Interface: {interface.decode()}" )
     print( f"    Name:      {name.decode()}" )
 
+    # Check if device we're looking for
+    if ( name.decode().find( namePattern ) ):
+        if ( isoutput ):
+            outputDeviceIndex = i
+        elif ( isinput ):
+            inputDeviceIndex = i
+
 
 # Open launchpad device(s)
-outputDevice = midi.Output( 1 )
+outputDevice = midi.Output( outputDeviceIndex )
 
 
 # Play with colors
