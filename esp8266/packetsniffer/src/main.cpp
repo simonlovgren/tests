@@ -30,6 +30,9 @@
 // Max channel number (US = 11, EU = 13, Japan = 14)
 #define MAX_CHANNEL   13
 
+// Channel to set
+#define CHANNEL       1
+
 // Deauth alarm level (packet rate per second)
 #define DEAUTH_ALARM_LEVEL    5
 
@@ -88,6 +91,11 @@ void setup( void )
     WiFi.disconnect();
     wifi_set_promiscuous_rx_cb( packetSniffer );
     wifi_promiscuous_enable( ENABLE );
+
+    // Currently only sniffing pre-defined channel.
+    // Should rotate through all channels in loop continuously and
+    // use yield() instead of sleep.
+    wifi_set_channel( CHANNEL );
 
     // Report setup completed
     Serial.println( "Setup completed." );
