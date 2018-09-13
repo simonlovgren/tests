@@ -132,8 +132,8 @@ void loop( void )
     // Print statistics
     Serial.print( "           SEEN    MAX     MIN     TOTAL\n" );
     Serial.print( "           --------------------------------------\n" );
-    Serial.printf( "PACKETS    %4lu    %4lu    %4lu    %lu\n", currentPackets, maxPackets, minPackets, totalPackets );
-    Serial.printf( "DEAUTHS    %4lu    %4lu    %4lu    %lu\n", currentDeauths, maxDeauths, minDeauths, totalDeauths );
+    Serial.printf( "PACKETS    %-4lu    %-4lu    %-4lu    %lu\n", currentPackets, maxPackets, minPackets, totalPackets );
+    Serial.printf( "DEAUTHS    %-4lu    %-4lu    %-4lu    %lu\n", currentDeauths, maxDeauths, minDeauths, totalDeauths );
 
     // Deauth alarm
     if ( deauths > DEAUTH_ALARM_LEVEL )
