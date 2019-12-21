@@ -56,9 +56,9 @@ class EchoServer:
             try:
                 data, addr = self.socket.recvfrom( 2048 )
                 if ( len( data ) > 0 ):
-                    print( f'{data.decode()}' )
+                    print( f'{data}' )
                     msgCount += 1
-                    self.socket.sendto( f'[{msgCount:04}] '.encode() + data, addr )
+                    #self.socket.sendto( f'[{msgCount:04}] '.encode() + data, addr )
             except socket.timeout as e:
                 # Just a timeout
                 pass
