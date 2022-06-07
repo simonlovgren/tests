@@ -16,12 +16,19 @@ class TcpClient(Thread):
 
         self.write_socket, self.tx_ready_socket = socket.socketpair()
         self.tx_queue = queue.Queue()
+        self.rx_queue = queue.Queue()
 
         self.kill = Event()
 
     def send(self, data: bytes):
         self.tx_queue.put(data)
         self.write_socket.send(b'\x00')
+
+    def read(self, block = True, timeout = None):
+        try:
+            return self.rx_queue.get(block, timeout)
+        except queue.Empty:
+            return None
 
     def disconnect(self):
         self.kill.set()
@@ -32,7 +39,7 @@ class TcpClient(Thread):
             rsocks, _, _ = select.select([self.main_socket, self.tx_ready_socket], [], [], 1)
             for s in rsocks:
                 if s is self.main_socket:
-                    print(s.recv(1024))
+                    self.rx_queue.put(self.main_socket.recv(1024))
                 elif s is self.tx_ready_socket:
                     s.recv(1)
                     self.main_socket.sendall(self.tx_queue.get())
@@ -47,7 +54,10 @@ if __name__ == '__main__':
     tc.send(b'SLOWER')
     time.sleep(1)
     tc.send(b'NOW')
-    time.sleep(1)
+    data = tc.read(timeout = 1)
+    while data is not None:
+        print(data)
+        data = tc.read(timeout = 1)
     tc.disconnect()
     tc.join()
     print('DONE')
