@@ -31,17 +31,20 @@ SOFTWARE.
 '''
 
 import socket
+import time
 
 class EchoServer:
-    def __init__( self, ip, port ):
+    def __init__( self, ip, port, speedOnly ):
         '''
         Binds to ip/port and listens for data on UDP
         '''
         self.kill = False
+        self.speedOnly = speedOnly
         self.socket = socket.socket( socket.AF_INET, socket.SOCK_DGRAM )
         self.socket.setsockopt( socket.SOL_SOCKET, socket.SO_REUSEADDR, 1 )
         self.socket.settimeout( 0.01 )
         self.socket.bind( ( ip, port ) )
+        self.lastPacket = 0
 
     def __del__( self ):
         '''
@@ -51,14 +54,29 @@ class EchoServer:
 
     def run( self ):
         self.kill = False
-        msgCount = 0
+        maxspeed = 0
+        toofast  = False
         while ( not self.kill ):
             try:
                 data, addr = self.socket.recvfrom( 2048 )
                 if ( len( data ) > 0 ):
-                    print( f'{data}' )
-                    msgCount += 1
-                    #self.socket.sendto( f'[{msgCount:04}] '.encode() + data, addr )
+                    if ( self.speedOnly ):
+                        currentTimestamp = time.time()
+                        if ( self.lastPacket > 0 ):
+                            delta = currentTimestamp - self.lastPacket
+                            if ( delta > 0 ):
+                                bps   = ( len( data ) * 8 ) / delta
+                                if ( bps > maxspeed ):
+                                    maxspeed = bps
+                                print( f'{round( maxspeed )} b/s max measured', end = '\r' )
+                            else:
+                                if ( toofast == False ):
+                                    print( 'Too fast for measurement...' )
+                                    toofast = True
+
+                        self.lastPacket = currentTimestamp
+                    else:
+                        print( f'{data}' )
             except socket.timeout as e:
                 # Just a timeout
                 pass
@@ -100,6 +118,12 @@ if __name__ == "__main__":
             ,default = '8000'
         )
 
+        parser.add_argument(
+            '--speed'
+            ,action = 'store_true'
+            ,help   = 'Only print speed of incoming data'
+        )
+
         return parser.parse_args()    
         pass
 
@@ -114,6 +138,6 @@ if __name__ == "__main__":
 
     args = parseargs()
     print( f'Listening on {args.ip}, port {args.port}' )
-    server = EchoServer( args.ip, args.port )
+    server = EchoServer( args.ip, args.port, args.speed )
 
     server.run()

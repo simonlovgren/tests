@@ -1,0 +1,15 @@
+{
+  "type": "object",
+  "properties" : {
+    "client_key": {
+      "type": "string"
+    },
+    "client_secret": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "client_key",
+    "client_secret"
+  ]
+}

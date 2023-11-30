@@ -56,7 +56,7 @@ class EchoClient():
             try:
                 data, addr = self.socket.recvfrom( 2048 )
                 if ( len( data ) > 0 ):
-                    print( f'-> {data.decode()}' )
+                    print( f'-> {data}' )
             except socket.timeout as e:
                 # Just a timeout
                 pass
