@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "MyTestProject"
+version = "0.0.0"
+description = "A test project"
+authors = [
+    {name = "Simon Lövgren"}
+]
+dependencies = [
+    "click",
+    "rich",
+    "gitpython"
+]
+
+[project.scripts]
+mytestproject = "mytestproject:main"
